@@ -6,26 +6,27 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-cmake_minimum_required(VERSION 3.18)
 
+# CMake基本设置和项目定义
+cmake_minimum_required(VERSION 3.18) # CMake最低版本指定
 project(instant-ngp
 	VERSION 1.0
 	DESCRIPTION "Instant Neural Graphics Primitives"
 	LANGUAGES C CXX CUDA
-)
-set(NGP_VERSION "${CMAKE_PROJECT_VERSION}")
+)  # 项目名称，版本，描述和使用的语言指定
 
+# 项目选项和版本设置
+set(NGP_VERSION "${CMAKE_PROJECT_VERSION}")  # 将项目版本设置为与 CMake 项目版本相同
 if (NOT NGP_DEPLOY)
 	set(NGP_VERSION "${NGP_VERSION}dev")
-endif()
-
+endif()  # 如果不是部署构建，则在版本字符串中添加“dev”
 option(NGP_BUILD_EXECUTABLE "Build instant-ngp.exe?" ON)
 option(NGP_BUILD_WITH_GUI "Build with GUI support (requires GLFW and GLEW)?" ON)
 option(NGP_BUILD_WITH_OPTIX "Build with OptiX to enable hardware ray tracing?" ON)
 option(NGP_BUILD_WITH_PYTHON_BINDINGS "Build bindings that allow instrumenting instant-ngp with Python?" ON)
-option(NGP_BUILD_WITH_VULKAN "Build with Vulkan to enable DLSS support?" ON)
+option(NGP_BUILD_WITH_VULKAN "Build with Vulkan to enable DLSS support?" ON)  # 定义多个构建选项，允许用户自定义构建过程
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)  # 设置 CMake 模块路径，用于查找和包含其他 CMake 脚本和模块
 
 ###############################################################################
 # Build type and C++ compiler setup
@@ -36,7 +37,7 @@ if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 	message(STATUS "No release type specified. Setting to 'Release'.")
 	set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
 	set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "RelWithDebInfo")
-endif()
+endif()  # 如果没有指定构建类型（如 Release 或 Debug），则默认设置为 Release
 
 if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/glfw/CMakeLists.txt")
 	message(FATAL_ERROR
@@ -53,7 +54,7 @@ endif()
 if (MSVC)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D_CRT_SECURE_NO_WARNINGS")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP24")
-else()
+else()    # 针对 MSVC（Microsoft Visual C++）和其他编译器的特定设置
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 endif()
 
@@ -64,6 +65,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # CUDA compiler setup
 ###############################################################################
 
+# CUDA 编译器设置；设置 CUDA 语言标准和一些编译选项，如快速数学库和扩展的 lambda 支持
 set(CMAKE_CUDA_STANDARD 14)
 set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 set(CMAKE_CUDA_EXTENSIONS OFF)
@@ -330,7 +332,7 @@ add_library(ngp STATIC ${NGP_SOURCES})
 set_target_properties(ngp PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS ON CUDA_SEPARABLE_COMPILATION ON)
 target_compile_definitions(ngp PUBLIC ${NGP_DEFINITIONS})
 target_compile_options(ngp PUBLIC $<$<COMPILE_LANGUAGE:CUDA>:${CUDA_NVCC_FLAGS}>)
-target_include_directories(ngp PUBLIC ${NGP_INCLUDE_DIRECTORIES})
+target_include_directories(ngp PUBLIC ${NGP_INCLUDE_DIRECTORIES})  #
 target_link_directories(ngp PUBLIC ${NGP_LINK_DIRECTORIES})
 target_link_libraries(ngp PUBLIC ${NGP_LIBRARIES} tiny-cuda-nn)
 

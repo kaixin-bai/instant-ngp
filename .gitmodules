@@ -1,12 +1,12 @@
 [submodule "dependencies/pybind11"]
 	path = dependencies/pybind11
 	url = https://github.com/Tom94/pybind11
-[submodule "dependencies/glfw"]
+[submodule "dependencies/glfw"]  # GLFW是配合OpenGL使用的轻量级工具程序库, GLFW的主要功能是创建并管理窗口和OpenGL上下文
 	path = dependencies/glfw
 	url = https://github.com/Tom94/glfw
 [submodule "dependencies/args"]
 	path = dependencies/args
-	url = https://github.com/Taywee/args
+	url = https://github.com/Taywee/args  # 小型的单头 C++11 参数解析库
 [submodule "dependencies/tinylogger"]
 	path = dependencies/tinylogger
 	url = https://github.com/Tom94/tinylogger
@@ -16,9 +16,10 @@
 [submodule "dependencies/imgui"]
 	path = dependencies/imgui
 	url = https://github.com/ocornut/imgui.git
+# https://www.nvidia.cn/geforce/technologies/dlss/  没见到instant-ngp用这个
 [submodule "dependencies/dlss"]
 	path = dependencies/dlss
-	url = https://github.com/NVIDIA/DLSS
+	url = https://github.com/NVIDIA/DLSS # Deep Learning Super Sampling；深度学习超级采样，通过降低游戏内的渲染分辨率，同时再通过人工智能算法模型和AI加速硬件单元（Tensor Core）来拉伸输出画面，提高显示分辨率
 [submodule "dependencies/zstr"]
 	path = dependencies/zstr
 	url = https://github.com/Tom94/zstr
